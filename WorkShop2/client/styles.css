@@ -1,0 +1,32 @@
+/* Estilos para el botón */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Estilos para los contenedores de resultados */
+#result, #resultS {
+    margin-top: 20px;
+}
+
+/* Estilos para el select de países */
+#countries {
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Estilos para el texto en los options del select */
+#countries option {
+    color: #333;
+}
+
+/* Estilos para el contenedor principal */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    padding: 20px;
+}

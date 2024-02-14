@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 1 - Consume API</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    function getes() {
+      getExchange();
+      getExchangeS();
+    }
+
+    const completed = (response) => {
+      const data = JSON.parse(response.target.responseText);
+      document.getElementById('result').innerHTML = `Tipo de Cambio Dolares ${data.usd}`;
+    };
+
+    const error = () => console.log(this.responseText);
+
+    function getExchange() {
+      var selectElement = document.getElementById("countries");
+      var currency = selectElement.value;
+      const ajaxRequestCurrencies = new XMLHttpRequest(); // AJAX
+            ajaxRequestCurrencies.addEventListener("load", completed);
+            ajaxRequestCurrencies.addEventListener("error", error);
+            ajaxRequestCurrencies.open("GET", `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${currency}/usd.json`);
+            ajaxRequestCurrencies.send();
+    }
+
+    const completedS = (response) => {
+      const data = JSON.parse(response.target.responseText);
+      document.getElementById('resultS').innerHTML = `Tipo de Cambio Euro ${data.eur}`;
+    };
+
+    const errorS = () => console.log(this.responseText);
+
+    function getExchangeS() {
+      var selectElement = document.getElementById("countries");
+      var currency = selectElement.value;
+      const ajaxRequestCurrencies = new XMLHttpRequest(); // AJAX
+            ajaxRequestCurrencies.addEventListener("load", completedS);
+            ajaxRequestCurrencies.addEventListener("error", errorS);
+            ajaxRequestCurrencies.open("GET", `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${currency}/eur.json`);
+            ajaxRequestCurrencies.send();
+    }
+    
+    window.onload = getExchange, getExchangeS;
+  </script>
+</head>
+
+<body>
+  <button onclick="getes();">Tipo de Cambio</button>
+  <h3>Results:</h3>
+  <div id="result"></div>
+  <div id="resultS"></div>
+  <select name="countries" id="countries" onchange="getCurrency();">
+  </select>
+
+  <script>
+    const completedCountries = (response) => {
+      const countries = JSON.parse(response.target.responseText);
+      let optionsHtml = "";
+      countries.forEach(country => {
+        if (country.currencies) {
+          const currencyKeys = Object.keys(country.currencies);
+          if (currencyKeys.length > 0) {
+            optionsHtml += `<option value="${currencyKeys[0].toLowerCase()}">${country.name.common}</option>`;
+          }
+        }
+      });
+      document.getElementById("countries").innerHTML = optionsHtml;
+    };
+
+    const errorCountries = () => console.log(this.responseText);
+
+    function getCountries() {
+      const ajaxRequestCountries = new XMLHttpRequest(); // AJAX
+      ajaxRequestCountries.addEventListener("load", completedCountries);
+      ajaxRequestCountries.addEventListener("error", errorCountries);
+      ajaxRequestCountries.open("GET", "http://localhost:3001/paises");
+      ajaxRequestCountries.send();
+    }
+    window.onload = getCountries;
+  </script>
+
+  <script>
+    function getCurrency() {
+      var selectElement = document.getElementById("countries");
+      var valorSeleccionado = selectElement.value;
+      console.log("Valor seleccionado:", valorSeleccionado);
+    } 
+  </script>
+</body>
+</html>
